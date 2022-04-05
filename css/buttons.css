@@ -1,0 +1,186 @@
+.btn-glass,
+.btn-float,
+.btn-ripple {
+        text-decoration: none !important;
+}
+
+.btn-glass {
+        font-size: 16px !important;
+        text-transform: uppercase;
+        appearance: none;
+        min-width: 50px;
+        min-height: 25px;
+        border: solid 1px #ccc;
+        padding: 5px 8px;
+        background-color: #efefef;
+        border-radius: 3px;
+        background-image: linear-gradient(0deg, #eee 10px, rgba(255, 255, 255, 0.5), #dfdfdf);
+        border-color: #bbb;
+        color: #000;
+        cursor: pointer;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        transition: all 0.2s;
+}
+
+.btn-glass:hover {
+        filter: brightness(120%);
+        transition: all 0.2s;
+}
+
+.btn-glass.success:hover {
+        background-color: #0e0;
+        background-image: linear-gradient(0deg, #0f0 10px, rgba(255, 255, 255, 0.5), #0d0);
+        border-color: #0c0;
+        color: #000 !important;
+}
+
+.btn-glass.error:hover {
+        background-color: #e00;
+        background-image: linear-gradient(0deg, #f00 10px, rgba(255, 255, 255, 0.4), #d00);
+        border-color: #c00;
+        color: #fff !important;
+}
+
+.btn-glass.warning:hover {
+        background-color: #fc0;
+        background-image: linear-gradient(0deg, #fb0 10px, rgba(255, 255, 255, 0.4), #de0);
+        border-color: #ce0;
+        color: #000 !important;
+}
+
+.btn-glass.info:hover {
+        background-color: #03e;
+        background-image: linear-gradient(0deg, #00d 10px, rgba(255, 255, 255, 0.3), #03e);
+        border-color: #03e;
+        color: #fff !important;
+}
+
+
+/*Must use with renderer.js*/
+.btn-ripple {
+        display: inline-block;
+        border-radius: 3px;
+        min-width: 80px;
+        padding: 5px 8px;
+        cursor: pointer;
+        vertical-align: middle;
+        text-align: center;
+        position: relative;
+        color: #000 !important;
+        background-color: #fff;
+        border: solid 1px #efefef;
+        font-size: 16px !important;
+        overflow: hidden;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        transition: all 0.3s;
+}
+
+.btn-ripple.round {
+        display: inline-block;
+        min-width: 30px !important;
+        width: 30px;
+        height: 30px;
+        line-height: 15px;
+        text-align: center;
+        border-radius: 20px;
+}
+
+.btn-ripple.round.mini {
+        min-width: 20px !important;
+        width: 20px;
+        height: 20px;
+        line-height: 16px;
+        text-align: center;
+        border-radius: 20px;
+        padding: 0;
+}
+
+.btn-ripple:hover {
+        box-shadow: 0px 0px 4px 2px rgba(50, 50, 50, 0.3);
+        transition: all 0.3s;
+}
+
+.btn-ripple.animated::after {
+        position: absolute;
+        content: "";
+        display: inline-block;
+        animation-name: ripple-animation;
+        animation-duration: 0.7s;
+        animation-fill-mode: forwards;
+        background-color: #6f6f6f;
+        border-radius: 100%;
+}
+
+.btn-ripple.success {
+        background-color: #0f8;
+        border-color: #0fa;
+}
+
+.btn-ripple.warning {
+        background-color: #fc0;
+        border-color: #fc4;
+}
+
+.btn-ripple.error {
+        background-color: #f30;
+        border-color: #f43;
+}
+
+.btn-ripple.info {
+        background-color: #0df;
+        border-color: #6df;
+}
+
+.btn-ripple.secondary {
+        background-color: #def;
+        border-color: #ddf;
+}
+
+@keyframes ripple-animation {
+        from {
+                left: 100%;
+                right: 100%;
+                bottom: 100%;
+                top: 100%;
+        }
+
+        to {
+                left: -30px;
+                right: -30px;
+                bottom: -30px;
+                top: -30px;
+                opacity: 0;
+        }
+}
+
+.btn-float {
+        position: sticky;
+        bottom: 3%;
+        float: right;
+        min-width: 50px !important;
+        width: 50px;
+        height: 50px;
+        padding: 0;
+        margin: 0px 5px;
+        border-radius: 25px !important;
+        line-height: 50px;
+        z-index: 99999999;
+}
+
+.btn-float.send {
+        background-image: url("../img/send.svg");
+        background-size: 60%;
+        background-repeat: no-repeat;
+        background-position: center center;
+}
+
+.btn-float.add {
+        background-image: url("../img/add.svg");
+        background-size: 40%;
+        background-repeat: no-repeat;
+        background-position: center center;
+}
