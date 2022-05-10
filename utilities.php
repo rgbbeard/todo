@@ -232,8 +232,9 @@ function get_date(string $timezone = TIMEZONE_UTC, string $separator = "/"): str
 }
 
 function get_time(string $timezone = TIMEZONE_UTC, string $separator = ":"): string {
-    date_default_timezone_set($timezone);
-    return date("H{$separator}i{$separator}s");
+    $datetime = new \DateTime("now", new \DateTimeZone($timezone));
+    $datetime->modify("+2 hour");
+    return date_format($datetime, "H{$separator}i{$separator}s");
 }
 
 function is_negative($num = 0) {
