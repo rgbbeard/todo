@@ -6,15 +6,18 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["todo_section"]) && !e
 	$maid = new JSONMaid("../todo.json");
 
 	$target = $maid->get_record($_POST["parent_section"]);
-	$new_record = [];
+	$new_record = [
+		"priority" => $target["priority"],
+		"tasks" => []
+	];
 
-	foreach($target as $index => $task) {
-		$new_record[] = $task;
+	foreach($target["tasks"] as $task) {
+		array_push($new_record["tasks"], $task);
 	}
 
 	set_timezone(TIMEZONE_ROME);
 
-	$new_record[] = "[" . get_date() . " " . get_time() . "] " . $_POST["todo_section"];
+	array_push($new_record["tasks"], "[" . get_date() . " " . get_time() . "] " . $_POST["todo_section"]);
 
 	echo $maid->update_record($_POST["parent_section"], $new_record) ? "success" : "failure";
 }

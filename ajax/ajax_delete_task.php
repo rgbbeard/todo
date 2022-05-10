@@ -6,14 +6,21 @@ if($_SERVER["REQUEST_METHOD"] === "POST" && !empty($_POST["parent_section"]) && 
 	$maid = new JSONMaid("../todo.json");
 
 	$target = $maid->get_record($_POST["parent_section"]);
-	$new_record = [];
+	$new_record = [
+		"priority" => $target["priority"],
+		"tasks" => []
+	];
 
-	foreach($target as $index => $task) {
+	$_POST["todo_section"] = preg_replace("/\s+\(edited\)\s+/", "  (edited)  ", $_POST["todo_section"]);
+
+	foreach($target["tasks"] as $task) {
+		$task = preg_replace("/\s+\(edited\)\s+/", "  (edited)  ", $task);
+
 		if($task === $_POST["todo_section"]) {
 			continue;
 		}
 
-		$new_record[] = $task;
+		array_push($new_record["tasks"], $task);
 	}
 
 	echo $maid->update_record($_POST["parent_section"], $new_record) ? "success" : "failure";

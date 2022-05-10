@@ -52,7 +52,8 @@ a[link]:hover::after {
 }
 
 .input-group input,
-.input-group textarea {
+.input-group textarea,
+.input-group select {
         padding: 0.5em 0.8em;
         outline: none;
         border: solid 1px #aaa;
@@ -67,6 +68,10 @@ a[link]:hover::after {
         line-height: 30px;
         border-radius: var(--default-border-radius);
         height: auto;
+}
+
+.input-group.select label {
+        position: initial;
 }
 
 .input-group input[required]:placeholder-shown,

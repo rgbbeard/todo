@@ -1,4 +1,4 @@
-const dom = document, win = window, www = String(win.location.origin + "/"), ww = win.innerWidth, wh = win.innerHeight;
+const dom = document, win = window, www = String(window.location.origin + "/AssociazioneQuartiereCorva"), ww = window.innerWidth, wh = window.innerHeight;
 //Select html elements
 class Selection {
 	constructor(selector = "body") {
@@ -27,23 +27,31 @@ class Selection {
 const _ = selector => new Selection(selector);
 class Converter {
 	rgb2Hex(r, g, b) {
-		r = r.toString(16).toUpperCase().length === 1 ? "0" + r : r;
-		g = g.toString(16).toUpperCase().length === 1 ? "0" + g : g;
-		b = b.toString(16).toUpperCase().length === 1 ? "0" + b : b;
+		r = r.toString(16);
+		r = r.toUpperCase();
+		r.length === 1 ? r = "0" + r : r;
+		g = g.toString(16);
+		g = g.toUpperCase();
+		g.length === 1 ? g = "0" + g : g;
+		b = b.toString(16);
+		b = b.toUpperCase();
+		b.length === 1 ? b = "0" + b : b;
 		return `#${r + g + b};`;
 	}
 
 	hex2Rgb(color) {
-		let result;
+		var result;
 		color = color.toUpperCase();
 		color.match(/\#?/) ? color = color.replace("#", "") : color;
 		if (color.length > 6 || color.length < 6) {
 			console.error("The written color does not match the requirements: color length must be exactly 6.");
 		} else {
-			let
-                r = parseInt(color.substring(0, 2), 16),
-                g = parseInt(color.substring(2, 4), 16),
-                b = parseInt(color.substring(4, 6), 16);
+			var r = color.substring(0, 2);
+			r = parseInt(r, 16);
+			var g = color.substring(2, 4);
+			g = parseInt(g, 16);
+			var b = color.substring(4, 6);
+			b = parseInt(b, 16);
 			result = `rgb(${r}, ${g}, ${b});`;
 		}
 		return result;
@@ -94,7 +102,7 @@ class Request {
 		url: "",
 		headers: {},
 		data: {},
-		done: function () { },
+		done: function () {},
 		async: true,
 		debugger: false
 	}) {
@@ -108,16 +116,26 @@ class Request {
 		this.async = true;
 		this.debugger = false;
 
-		this.#setParams(params);
+		this.setParams(params);
 		this.xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft.XMLHTTP"); //Edge-Explorer compatibility
 		this.xhr.open(this.method, this.url, this.async);
 		this.setHeaders();
 		this.setData(params.data);
 		//Send data
-		this.sendData(this.data);
+		this.xhr.send(this.data);
+		this.xhr.onload = () => {
+			let result = [];
+			result["code"] = this.xhr.status;
+			result["response"] = this.xhr.statusText;
+			result["return"] = this.xhr.responseText;
+			result["xmlReturn"] = this.xhr.responseXML;
+			if(!isNull(this.done)) {
+				this.done(result);
+			}
+		};
 	}
 
-	#setParams(data) {
+	setParams(data) {
 		//Set method
 		if (isDeclared(data.method) && this.methods.inArray(data.method.toUpperCase())) {
 			this.method = data.method.toUpperCase();
@@ -157,7 +175,7 @@ class Request {
 				let value = data[key];
 
 				if(!value.isFunction()) {
-					if(isDeclared(value.type)) { //This one for file upload
+					if(isDeclared(value.type) && value.type === "file") { //This one for file upload
 						form.append(key, value, value.name);
 					} else {
 						form.append(key, value);
@@ -167,20 +185,6 @@ class Request {
 			this.data = form;
 		}
 	}
-
-    sendData(data) {
-        this.xhr.send(data);
-		this.xhr.onload = () => {
-			let result = [];
-			result["code"] = this.xhr.status;
-			result["response"] = this.xhr.statusText;
-			result["return"] = this.xhr.responseText;
-			result["xmlReturn"] = this.xhr.responseXML;
-			if(!isNull(this.done)) {
-				this.done(result);
-			}
-		};
-    }
 }
 //These functions will execute every thing is put inside the SystemExecution array
 //Works the same way of JQuery's $(document).ready(fn) as SystemFn(fn)
@@ -207,4 +211,4 @@ const SystemExec = function() {
 		console.log("SystemExec: No functions were found.");
 	}
 };
-window.onload = SystemExec;
+window.addEventListener("load", SystemExec);

@@ -813,8 +813,12 @@ class Menu {
 						this.menuParams.children.push(new E(params));
 					}
 				}
-			} else warn("Expected object.");
-		} else warn("Expected menu voices.");
+			} else {
+				console.warn("Expected object.");
+			}
+		} else {
+			console.warn("Expected menu voices.");
+		}
 		
 		//Add close menu btn
 		this.menuParams.children.push(new E({
@@ -838,7 +842,7 @@ class Menu {
 }
 
 //Spinner object
-class SpinnerRing{
+class SpinnerRing {
 	constructor(data = {
 		generateContainer: false,
 		message: "Please wait...",
@@ -959,11 +963,6 @@ Objects.prototype.stretch = function(properties = "width, height", mode = "match
 		this.style.height = this.parentNode.offsetHeight+"px";
 	}
 };
-//Beta
-Objects.prototype.focused = function (fn) {
-	let f = this.focus();
-	if (f === true) fn.call();
-};
 Objects.prototype.instance = function(instance) {
 	return this instanceof instance ? true : false;
 };
@@ -1044,7 +1043,11 @@ Objects.prototype.isObject = function() {
 };
 Objects.prototype.attachTo = function(element) {
 	if(element.isObject() || element.instance(Objects)) {
-		let ot = element.getBoundingClientRect().top, ep = element.getPadding(), eh = element.offsetHeight, top = ot + ep.top + (eh/2);
+		let
+			ot = element.getBoundingClientRect().top,
+			ep = element.getPadding(),
+			eh = element.offsetHeight,
+			top = ot + ep.top + (eh/2);
 
 		this.addStyles({
 			"top": top + "px",
@@ -1080,4 +1083,18 @@ Objects.prototype.rippleAnimation = function(e) {
         setTimeout(function() {
                 t.removeClass("animated");
         }, 700);
+};
+Objects.prototype.txt = function(t) {
+	if(isDeclared(t)) {
+		this.innerHTML = t;
+	}
+	return this.innerText;
+};
+Objects.prototype.on = function(listener, fn) {
+	listener = String(listener);
+	if(!fn.isFunction()) {
+		console.error("Parameter fn must be a function");
+		return;
+	}
+	this.addEventListener(listener, fn);
 };
